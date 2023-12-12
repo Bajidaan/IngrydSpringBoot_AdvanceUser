@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.function.Function;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -81,5 +82,47 @@ public class UserController {
     public ResponseEntity<List<AdvancedUser>> search(@PathVariable String name, @PathVariable String gender){
         return new ResponseEntity<>(criteriaUserRepository.search(name, gender), HttpStatus.OK);
     }
+
+    /*
+     *************************************************** Exercise End point ************************************************************
+     */
+
+    @GetMapping("sortAscending")
+    public List<AdvancedUser> sortAscending() {
+        return userService.getAll().stream()
+                .sorted((x, y) -> x.getFullName()
+                        .compareTo(y.getFullName())).toList();
+    }
+    @GetMapping("sortDescending")
+    public List<AdvancedUser> sortDescending() {
+        return userService.getAll().stream()
+                .sorted((y, x) -> x.getFullName()
+                        .compareTo(y.getFullName())).toList();
+    }
+    @GetMapping("getSortedMale")
+    public List<AdvancedUser> sortedMaleUser() {
+        return userService.getAll().stream()
+                .filter(x -> x.getGender().equalsIgnoreCase("male"))
+                .sorted((x, y) -> x.getFullName()
+                        .compareTo(y.getFullName())).toList();
+    }
+
+    @GetMapping("/changeNames")
+    public List<AdvancedUser> changeMale() {
+        Function<AdvancedUser, AdvancedUser> result = x ->
+                new AdvancedUser(x.getId(), x.getFullName().toUpperCase(),
+                        x.getEmail(), x.getGender(), x.getPhoneNumber());
+
+        return userService.getAll().stream()
+                .map(result)
+                .sorted((x, y) -> x.getFullName()
+                        .compareTo(y.getFullName())).toList();
+    }
+
+
+
+
+
+
 
 }

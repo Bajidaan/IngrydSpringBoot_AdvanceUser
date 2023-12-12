@@ -1,0 +1,23 @@
+###
+###
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "fullName": "Uche Igwe",
+  "email": "igwe@gmail.com",
+  "gender": "male",
+  "phoneNumber": "08087378346"
+}
+
+###**********************************************###
+GET http://localhost:8080/api/v1/sortAscending
+
+###
+GET http://localhost:8080/api/v1/sortDescending
+
+###
+GET http://localhost:8080/api/v1/getSortedMale
+
+###
+GET http://localhost:8080/api/v1/changeNames
